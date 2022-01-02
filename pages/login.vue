@@ -45,6 +45,7 @@
             autocomplete="email"
             placeholder="Email Address"
             class="input input-sm rounded-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -68,6 +69,7 @@
               :type="isShowPassword ? '' : 'password'"
               placeholder="Password"
               class="w-full pr-16 input input-sm rounded-sm"
+              :class="[errors[0] ? 'input-error' : '']"
             />
 
             <button
@@ -194,6 +196,7 @@ export default {
         this.$router.push('/')
       } catch (error) {
         const message = error?.response?.data?.message
+
         this.setToast({
           isShow: true,
           message,

@@ -100,4 +100,21 @@ export const actions = {
       commit('SET_LOADING', false)
     }
   },
+  async addOrders({ commit }, { data }) {
+    try {
+      commit('SET_LOADING', true)
+
+      if (!data) throw new Error('Input data first!')
+
+      const response = await this.$axios.$post('/order', data)
+
+      if (!response.data) throw response
+
+      return response
+    } catch (error) {
+      return error
+    } finally {
+      commit('SET_LOADING', false)
+    }
+  },
 }

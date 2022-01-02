@@ -30,6 +30,7 @@
             type="text"
             placeholder="Enter consignee name..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -52,6 +53,7 @@
             type="email"
             placeholder="Enter consignee email..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -79,6 +81,7 @@
             placeholder="Enter consignee number..."
             min="0"
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -102,8 +105,9 @@
           <textarea
             id="consignee_address"
             v-model="form1.consignee_address"
-            class="textarea h-24 textarea-bordered"
             placeholder="Enter consignee address..."
+            class="textarea h-24 textarea-bordered"
+            :class="[errors[0] ? 'textarea-error' : '']"
           ></textarea>
 
           <ErrorText :message="errors[0]" />
@@ -130,6 +134,7 @@
             type="number"
             placeholder="Enter consignee postal..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -156,6 +161,7 @@
             type="text"
             placeholder="Enter consignee country..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -182,6 +188,7 @@
             type="text"
             placeholder="Enter consignee province..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -208,6 +215,7 @@
             type="text"
             placeholder="Enter consignee city..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -251,6 +259,7 @@
             type="text"
             placeholder="Enter pickup name..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -278,6 +287,7 @@
             placeholder="Enter pickup number..."
             min="0"
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -301,8 +311,9 @@
           <textarea
             id="pickup_address"
             v-model="form2.pickup_address"
-            class="textarea h-24 textarea-bordered"
             placeholder="Enter pickup address..."
+            class="textarea h-24 textarea-bordered"
+            :class="[errors[0] ? 'textarea-error' : '']"
           ></textarea>
 
           <ErrorText :message="errors[0]" />
@@ -325,6 +336,7 @@
             type="number"
             placeholder="Enter pickup postal..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -351,6 +363,7 @@
             type="text"
             placeholder="Enter pickup country..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -377,6 +390,7 @@
             type="text"
             placeholder="Enter pickup province..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -399,6 +413,7 @@
             type="text"
             placeholder="Enter pickup city..."
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
           />
 
           <ErrorText :message="errors[0]" />
@@ -433,7 +448,9 @@
 
           <select
             v-model="form3.payment_type"
+            :disabled="stateOfLoading"
             class="select select-bordered select-sm w-full"
+            :class="[errors[0] ? 'select-error' : '']"
           >
             <option disabled="disabled" selected="selected" value="">
               Choose payment type
@@ -458,10 +475,16 @@
           <input
             id="length"
             v-model="form3.length"
+            :disabled="stateOfLoading"
             type="number"
             placeholder="Enter item length..."
             min="0"
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
+          />
+
+          <InputDescription
+            text="Value in meters and can be a number or a decimal"
           />
 
           <ErrorText :message="errors[0]" />
@@ -480,10 +503,16 @@
           <input
             id="width"
             v-model="form3.width"
+            :disabled="stateOfLoading"
             type="number"
             placeholder="Enter item width..."
             min="0"
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
+          />
+
+          <InputDescription
+            text="Value in meters and can be a number or a decimal"
           />
 
           <ErrorText :message="errors[0]" />
@@ -502,10 +531,16 @@
           <input
             id="height"
             v-model="form3.height"
+            :disabled="stateOfLoading"
             type="decimal:2"
             placeholder="Enter item height..."
             min="0"
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
+          />
+
+          <InputDescription
+            text="Value in meters and can be a number or a decimal"
           />
 
           <ErrorText :message="errors[0]" />
@@ -524,16 +559,24 @@
           <input
             id="weight"
             v-model="form3.weight"
+            :disabled="stateOfLoading"
             type="number"
             placeholder="Enter item weight..."
             min="0"
             class="input input-bordered input-sm"
+            :class="[errors[0] ? 'input-error' : '']"
+          />
+
+          <InputDescription
+            text="Value in kilograms and can be a number or a decimal"
           />
 
           <ErrorText :message="errors[0]" />
         </ValidationProvider>
 
         <Submit
+          next-text="Submit"
+          :loading="stateOfLoading"
           @handlePrev="doSubmit({ actions: 'prev', form: '3' })"
           @handleNext="doSubmit({ actions: 'next', form: '3' })"
         />
@@ -543,9 +586,11 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import ErrorText from '../base/ErrorText.vue'
 import Label from '../base/Label.vue'
+import InputDescription from '../base/InputDescription.vue'
 import Submit from './Submit.vue'
 
 export default {
@@ -556,6 +601,7 @@ export default {
     ErrorText,
     Label,
     Submit,
+    InputDescription,
   },
   props: {
     step: {
@@ -566,36 +612,41 @@ export default {
   data() {
     return {
       form1: {
-        consignee_name: 'Cak Bagus',
-        consignee_email: 'cakbagus@yopmail.com',
-        consignee_number: '0896728173361',
-        consignee_address: 'Jl. Sumatra',
-        consignee_postal: '68133',
-        consignee_country: 'Indonesia',
-        consignee_province: 'Jawa Barat',
-        consignee_city: 'Bandung',
+        consignee_name: '',
+        consignee_email: '',
+        consignee_number: '',
+        consignee_address: '',
+        consignee_postal: '',
+        consignee_country: '',
+        consignee_province: '',
+        consignee_city: '',
         consignee_state: '',
       },
       form2: {
-        pickup_contact_name: 'Ucok Pikun',
-        pickup_contact_number: '0892718471126',
-        pickup_address: 'Jl. Kalimantan',
-        pickup_postal: '68134',
-        pickup_country: 'Indonesia',
-        pickup_province: 'Sulawesi Selatan',
-        pickup_city: 'Makassar',
+        pickup_contact_name: '',
+        pickup_contact_number: '',
+        pickup_address: '',
+        pickup_postal: '',
+        pickup_country: '',
+        pickup_province: '',
+        pickup_city: '',
         pickup_state: '',
       },
       form3: {
-        payment_type: 'Paylater',
-        length: 3,
-        width: 0.8,
-        height: 0.3,
-        weight: 6,
+        payment_type: '',
+        length: 0,
+        width: 0,
+        height: 0,
+        weight: 0,
       },
     }
   },
+  computed: {
+    ...mapState('orders', { stateOfLoading: 'loading' }),
+  },
   methods: {
+    ...mapMutations('appConfig', { setToast: 'SET_TOAST' }),
+    ...mapActions('orders', ['addOrders']),
     async doSubmit({ actions, form }) {
       // Handle action prev
       if (actions !== 'next') {
@@ -630,12 +681,33 @@ export default {
 
       // Handle form step 3
       if (this.step === 3) {
+        this.form3 = {
+          ...this.form3,
+          length: parseFloat(this.form3.length),
+          width: parseFloat(this.form3.width),
+          height: parseFloat(this.form3.height),
+          weight: parseFloat(this.form3.weight),
+        }
+
         const data = { ...this.form1, ...this.form2, ...this.form3 }
 
         try {
-          return await console.log(data)
+          const response = await this.addOrders({ data })
+
+          if (!response.data) throw response
+
+          setTimeout(() => {
+            this.setToast({
+              isShow: true,
+              message: 'Orders successfully added!',
+            })
+            this.$router.push('/')
+          }, 500)
         } catch (error) {
-          return error
+          this.setToast({
+            isShow: true,
+            message: error?.response?.data?.message || error?.message,
+          })
         }
       }
     },

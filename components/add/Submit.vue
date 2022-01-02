@@ -4,13 +4,14 @@
       type="button"
       value="Prev"
       class="btn btn-sm btn-outline"
-      :disabled="disabled"
+      :disabled="disabled || loading"
       @click="$emit('handlePrev')"
     />
 
     <input
       type="button"
-      value="Next"
+      :value="nextText"
+      :disabled="loading"
       class="btn btn-sm btn-primary"
       @click="$emit('handleNext')"
     />
@@ -24,6 +25,14 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    nextText: {
+      type: String,
+      default: 'Next',
     },
   },
 }
