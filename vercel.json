@@ -7,6 +7,6 @@
     }
   ],
   "env": {
-    "BASE_URL": true
+    "BASE_URL": "https://frontend-screening-v1.herokuapp.com"
   }
 }
