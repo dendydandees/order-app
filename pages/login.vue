@@ -21,11 +21,22 @@
         </h2>
       </div>
 
-      <form class="mt-8 space-y-6" @submit.stop.prevent="userLogin">
-        <div class="form-control">
-          <label class="label sr-only">
-            <span class="label-text">Username</span>
-          </label>
+      <ValidationObserver
+        ref="loginFormObserver"
+        tag="form"
+        class="mt-8 space-y-6"
+        @submit.stop.prevent="userLogin"
+      >
+        <!-- Email field -->
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="Email Address"
+          rules="required|email"
+          slim
+          tag="div"
+          class="form-control"
+        >
+          <Label for="email" text="Email Address" class="sr-only" />
 
           <input
             id="email"
@@ -35,12 +46,20 @@
             placeholder="Email Address"
             class="input input-sm rounded-sm"
           />
-        </div>
 
-        <div class="form-control">
-          <label class="label sr-only">
-            <span class="label-text">Password</span>
-          </label>
+          <ErrorText :message="errors[0]" />
+        </ValidationProvider>
+
+        <!-- Password field -->
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="Password"
+          rules="required|min:8|max:16"
+          slim
+          tag="div"
+          class="form-control"
+        >
+          <Label for="password" text="Password" class="sr-only" />
 
           <div class="relative">
             <input
@@ -99,7 +118,9 @@
               </transition>
             </button>
           </div>
-        </div>
+
+          <ErrorText :message="errors[0]" />
+        </ValidationProvider>
 
         <div class="flex items-center justify-end">
           <div class="text-sm">
@@ -119,50 +140,60 @@
             Sign in
           </button>
         </div>
-      </form>
+      </ValidationObserver>
     </div>
   </section>
 </template>
 
 <script>
-import md5 from 'js-md5'
 import { mapMutations } from 'vuex'
+import md5 from 'js-md5'
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import Label from '~/components/base/Label.vue'
+import ErrorText from '~/components/base/ErrorText.vue'
 
 export default {
   name: 'LoginPage',
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+    ErrorText,
+    Label,
+  },
   layout: 'guest',
   data() {
     return {
       loading: false,
       isShowPassword: false,
       login: {
-        email: 'raymond@luwjistik.com',
-        password: 'tolongdong',
+        email: '',
+        password: '',
       },
     }
   },
   methods: {
     ...mapMutations('appConfig', { setToast: 'SET_TOAST' }),
     async userLogin() {
-      const encryptPassword = await md5(this.login.password)
-      const data = { ...this.login, password: encryptPassword }
-
       try {
         this.loading = true
+
+        const isValid = await this.$refs.loginFormObserver.validate()
+
+        if (!isValid) return
+
+        const encryptPassword = await md5(this.login.password)
+        const data = { ...this.login, password: encryptPassword }
         const response = await this.$auth.loginWith('local', {
           data,
         })
 
         if (!response?.data) throw response
 
-        this.$nextTick(() => {
-          this.$auth.setUser(response.data.data)
-          this.$auth.$storage.setUniversal('user', response.data.data)
-          this.$router.push('/')
-        })
+        this.$auth.setUser(response.data.data)
+        this.$auth.$storage.setUniversal('user', response.data.data)
+        this.$router.push('/')
       } catch (error) {
         const message = error?.response?.data?.message
-
         this.setToast({
           isShow: true,
           message,
